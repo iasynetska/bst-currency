@@ -1,0 +1,39 @@
+.wrapper {
+    margin: 20px;
+}
+
+.item-dropdown {
+    width: 185px;
+    padding: 3px;
+    outline: none;
+    border: 0;
+    border: 1px solid #809ac6;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.item-dropdown:focus {
+    border: 1px solid #113064;
+}
+
+.date-block {
+    margin-bottom: 30px;
+}
+
+.date-block__item {
+    margin: 20px;
+}
+
+.field {
+    padding: 3.5px 5px 1.5px 5px;
+    outline: none;
+    border: 1px solid #809ac6;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.field:focus {
+    border: 1px solid #113064;
+}
+
+#showReportBtn {
+}

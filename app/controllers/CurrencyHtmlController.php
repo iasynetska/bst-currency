@@ -9,7 +9,6 @@ use services\CurrencyService;
 class CurrencyHtmlController extends AbstractController
 {
     private $currencyService;
-    private $content;
     
     public function __construct(Request $request, LangManager $langManager, CurrencyService $currencyService)
     {
@@ -32,9 +31,26 @@ class CurrencyHtmlController extends AbstractController
             dirname(__DIR__, 1) . '/views/index.html.php',
             [
                 'title'=> $this->langManager->getLangParams()['title'],
-                'currencies' => $arr_currencies
+                'loadButton'=> $this->langManager->getLangParams()['loadButton'],
+                'showReportButton'=> $this->langManager->getLangParams()['showReportButton'],
+                'columnNames' => $this->langManager->getLangParams()['columnNames'],
+                'currencies' => $arr_currencies,
+                'valutes' => $this->getCurrencyNames()
             ]
         );
+    }
+
+    private function getCurrencyNames()
+    {
+        $currencies = simplexml_load_file('app/currencies/currencies.xml');
+
+        $currenciesArr = array();
+        foreach ($currencies as $currency)
+        {
+            array_push($currenciesArr, ['id' => (string)$currency->ID, 'charCode' => (string)$currency->CharCode]);
+        }
+
+        return $currenciesArr;
     }
 
     private function getSelectedDates(): array
