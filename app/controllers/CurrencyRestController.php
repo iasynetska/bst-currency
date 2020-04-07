@@ -4,7 +4,6 @@ namespace controllers;
 
 use core\LangManager;
 use core\Request;
-use currencies\CurrencyUtils;
 use DateTime;
 use entities\CurrencyConverter;
 use services\CurrencyService;
@@ -21,28 +20,8 @@ class CurrencyRestController extends AbstractController
 
     public function handleCurrencyPostRequest()
     {
-        $selectedDates = $this->getSelectedDates();
-        $currencies = $this->currencyService->getCurrencyByDateAndValuteId(
-            $selectedDates['from'],
-            $selectedDates['to'],
-            $this->request->getPostParam('currency'));
-
-        $arr_currencies = [];
-        foreach ($currencies as $currency) {
-            array_push($arr_currencies, CurrencyConverter::entityToArray($currency));
-        }
-
-        echo $this->build(
-            dirname(__DIR__, 1) . '/views/index.html.php',
-            [
-                'title' => $this->langManager->getLangParams()['title'],
-                'loadButton' => $this->langManager->getLangParams()['loadButton'],
-                'showReportButton' => $this->langManager->getLangParams()['showReportButton'],
-                'columnNames' => $this->langManager->getLangParams()['columnNames'],
-                'currencies' => $arr_currencies,
-                'valutes' => CurrencyUtils::getAllCurrencyIds()
-            ]
-        );
+        $this->currencyService->populateDbWithCurrencies();
+        header(sprintf('Location: %s', '/'));
     }
 
 
@@ -83,15 +62,5 @@ class CurrencyRestController extends AbstractController
     {
         $formattedDate = DateTime::createFromFormat($this::DATE_FORMAT, $date);
         return $formattedDate && $formattedDate->format($this::DATE_FORMAT) === $date;
-    }
-
-
-    protected function build($template, array $params = [])
-    {
-        ob_start();
-        extract($params);
-        include $template;
-
-        return ob_get_clean();
     }
 }

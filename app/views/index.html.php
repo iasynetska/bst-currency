@@ -19,9 +19,9 @@
 
 <body>
     <div class="wrapper d-flex flex-column">
-        <button type="button" class="btn btn-secondary btn-lg btn-block"><?=$loadButton?></button>
+        <form action="/api" method="post"><button type="submit" class="btn btn-secondary btn-lg btn-block"><?=$loadButton?></button></form>
 
-        <form class="date-block d-flex flex-wrap justify-content-center" action="aaa" method="post">
+        <form class="date-block d-flex flex-wrap justify-content-center" action="" method="post">
 
             <div class="date-block__item">
                 <select name="currency" class="item-dropdown">

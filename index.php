@@ -1,5 +1,6 @@
 <?php
 
+use apiclients\CbrApiClient;
 use controllers\CurrencyRestController;
 use core\DbConnection;
 use core\Request;
@@ -23,7 +24,8 @@ $uriParts = array_values($uriParts);
 $controllerType = isset($uriParts[0]) && $uriParts[0] !== '' ? $uriParts[0] : 'http';
 $request = new Request($_GET, $_POST);
 $langManager = new LangManager($request);
-$currencyService = new CurrencyService(new CurrencyDbRepository(DbConnection::getPDO()));
+$currencyApiClient = new CbrApiClient();
+$currencyService = new CurrencyService(new CurrencyDbRepository(DbConnection::getPDO()), $currencyApiClient);
 
 if($controllerType === 'http')
 {
@@ -51,6 +53,6 @@ if($controllerType === 'http')
     }
 } else {
     http_response_code(404);
-    echo sprintf("Uri %s not found", $this->request->getServerParam('REQUEST_URI'));
+    echo sprintf("Uri %s not found", $_SERVER['REQUEST_URI']);
     exit();
 }
