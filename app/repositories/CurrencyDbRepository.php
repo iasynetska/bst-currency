@@ -2,6 +2,7 @@
 
 namespace repositories;
 use entities\Currency;
+use entities\CurrencyConverter;
 
 class CurrencyDbRepository
 {
@@ -40,6 +41,14 @@ class CurrencyDbRepository
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);
 
-        return $stmt->fetchAll();
+        $result = $stmt->fetchAll();
+
+        $arr_currencies = [];
+        foreach ($result as $currency)
+        {
+            array_push($arr_currencies, CurrencyConverter::arrayToEntity($currency));
+        }
+
+        return $arr_currencies;
     }
 }
