@@ -21,10 +21,10 @@
     <div class="wrapper d-flex flex-column">
         <button type="button" class="btn btn-secondary btn-lg btn-block"><?=$loadButton?></button>
 
-        <div class="date-block d-flex flex-wrap justify-content-center">
+        <form class="date-block d-flex flex-wrap justify-content-center" action="aaa" method="post">
 
             <div class="date-block__item">
-                <select class="item-dropdown">
+                <select name="currency" class="item-dropdown">
                     <option value = "0">Select valute</option>
                     <?php foreach($valutes as $valute):?>
                         <option value = "<?=$valute['id']?>"><?=$valute['charCode'].' - '.$valute['id']?></option>
@@ -32,10 +32,10 @@
                 </select>
             </div>
 
-            <div class="date-block__item">From: <input type="text" id="datepickerFrom" class="field"></div>
-            <div class="date-block__item">To: <input type="text" id="datepickerTo" class="field"></div>
-            <div class="date-block__item"><button type="button" id="showReportBtn" class="btn-sm btn btn-secondary"><?=$showReportButton?></button></div>
-        </div>
+            <div class="date-block__item">From: <input name="from" type="text" id="datepickerFrom" class="field"></div>
+            <div class="date-block__item">To: <input name="to" type="text" id="datepickerTo" class="field"></div>
+            <div class="date-block__item"><button type="submit" id="showReportBtn" class="btn-sm btn btn-secondary"><?=$showReportButton?></button></div>
+        </form>
 
         <table class="table table-striped">
             <thead>

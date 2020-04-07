@@ -15,8 +15,8 @@ class CurrencyService
     }
 
 
-    public function getCurrencyFromTo($from, $to): array
+    public function getCurrencyByDateAndValuteId(String $from, String $to, String $valuteId): array
     {
-        return $this->currencyRepository->getCurrencyFromTo($from, $to);
+        return $this->currencyRepository->getCurrencyByDateAndValuteId($from, $to, $valuteId);
     }
 }

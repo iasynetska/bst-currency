@@ -31,12 +31,12 @@ class CurrencyDbRepository
         $stmt->execute($params);
     }
 
-    public function getCurrencyFromTo($from, $to): array
+    public function getCurrencyByDateAndValuteId(String $from, String $to, String $valuteId): array
     {
         // TODO: add masks
-        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to";
+        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to AND valuteID = :valuteID";
 
-        $params = array('from'=>$from, 'to'=>$to);
+        $params = array('from'=>$from, 'to'=>$to, 'valuteID'=>$valuteId);
 
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute($params);

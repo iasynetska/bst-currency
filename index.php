@@ -22,9 +22,9 @@ $controller = new CurrencyHtmlController($request, $langManager, $currencyServic
 switch($request->getMethod())
 {
     case $request::METHOD_POST:
-
+        $controller->handleCurrencyPostRequest();
         break;
     case $request::METHOD_GET:
-        $controller->handleCurrencyRequest();
+        $controller->handleCurrencyGetRequest();
         break;
 }
