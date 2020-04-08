@@ -1,6 +1,7 @@
 # Test task to get currencies from www.cbr.ru
 
 * The application was implemented using pure PHP without any frameworks
+* I added framework Bootstrap to add fancy layout to the page
 * In this project I used classic layered architecture (schema is below)
 * API REST point to get currencies available under this uri "GET /api"
   * Example: http://localhost/api?from=2020-01-07&to=2020-02-20&valueID=R01235
