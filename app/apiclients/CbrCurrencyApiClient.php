@@ -5,7 +5,7 @@ namespace apiclients;
 use entities\CurrencyConverter;
 use Exception;
 
-class CbrApiClient
+class CbrCurrencyApiClient implements CurrencyApiClientInterface
 {
     private $errors = [
         301 => 'Moved permanently',
@@ -18,10 +18,10 @@ class CbrApiClient
         503 => 'Service unavailable',
     ];
 
-
     /**
      * @param String $date format d/m/Y
      * @return array of Currency
+     * @throws Exception
      */
     public function getCurrenciesByDate(String $date): array
     {

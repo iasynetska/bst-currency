@@ -2,12 +2,12 @@
 
 namespace services;
 
-use apiclients\CbrApiClient;
+use apiclients\CbrCurrencyApiClient;
 use core\DbConnection;
 use Exception;
 use repositories\CurrencyDbRepository;
 
-class CurrencyService
+class CurrencyService implements CurrencyServiceInterface
 {
     private $apiDateFormat = 'd/m/Y';
     private $apiDaysToFillDb = 30;
@@ -16,7 +16,7 @@ class CurrencyService
     private $currencyApiClient;
 
 
-    public function __construct(CurrencyDbRepository $currencyRepository, CbrApiClient $currencyApiClient)
+    public function __construct(CurrencyDbRepository $currencyRepository, CbrCurrencyApiClient $currencyApiClient)
     {
         $this->currencyRepository = $currencyRepository;
         $this->currencyApiClient = $currencyApiClient;

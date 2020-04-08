@@ -5,7 +5,7 @@ use entities\Currency;
 use entities\CurrencyConverter;
 use PDO;
 
-class CurrencyDbRepository
+class CurrencyDbRepository implements CurrencyRepositoryInterface
 {
     private $pdo;
 
