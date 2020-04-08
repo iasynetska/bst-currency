@@ -19,7 +19,7 @@
 
 <body>
     <div class="wrapper d-flex flex-column">
-        <form action="/api" method="post"><button type="submit" class="btn btn-secondary btn-lg btn-block"><?=$loadButton?></button></form>
+        <form action="/api/loaddata" method="post"><button type="submit" class="btn btn-secondary btn-lg btn-block"><?=$loadButton?></button></form>
 
         <form class="date-block d-flex flex-wrap justify-content-center" action="" method="post">
 

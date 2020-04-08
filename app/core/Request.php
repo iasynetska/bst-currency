@@ -8,11 +8,13 @@ class Request
     
     private $get;
     private $post;
-    
-    public function __construct($get, $post)
+    private $server;
+
+    public function __construct($get, $post, $server)
     {
         $this->get = $get;
         $this->post = $post;
+        $this->server = $server;
     }
 
     public function getMethod()
@@ -37,7 +39,7 @@ class Request
     
     public function getServerParam($key)
     {
-        return $this->getParam($_SERVER, $key);
+        return $this->getParam($this->server, $key);
     }
     
     public function getGetParam($key)
@@ -78,6 +80,11 @@ class Request
     public function isPost()
     {
         return $this->getMethod() === self::METHOD_POST;
+    }
+
+    public function getRequestUri()
+    {
+        return $this->getServerParam('REQUEST_URI');
     }
     
     private function getParam(array $arr, $key)

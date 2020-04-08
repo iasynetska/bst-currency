@@ -1,11 +1,10 @@
 <?php
 
 use apiclients\CbrApiClient;
-use controllers\CurrencyRestController;
 use core\DbConnection;
 use core\Request;
 use core\LangManager;
-use controllers\CurrencyHtmlController;
+use core\RequestRouter;
 use repositories\CurrencyDbRepository;
 use services\CurrencyService;
 
@@ -16,43 +15,19 @@ spl_autoload_register(function ($classname)
 });
 session_start();
 
-$uri = strtolower(explode('?', $_SERVER['REQUEST_URI'])[0]);
-$uriParts = explode('/', $uri);
-unset($uriParts[0]);
-$uriParts = array_values($uriParts);
+$request = new Request($_GET, $_POST, $_SERVER);
+$route = RequestRouter::getRequestRoute($request);
 
-$controllerType = isset($uriParts[0]) && $uriParts[0] !== '' ? $uriParts[0] : 'http';
-$request = new Request($_GET, $_POST);
-$langManager = new LangManager($request);
-$currencyApiClient = new CbrApiClient();
-$currencyService = new CurrencyService(new CurrencyDbRepository(DbConnection::getPDO()), $currencyApiClient);
-
-if($controllerType === 'http')
+if(empty($route))
 {
-    $controller = new CurrencyHtmlController($request, $langManager, $currencyService);
-    switch($request->getMethod())
-    {
-        case $request::METHOD_POST:
-            $controller->handleCurrencyPostRequest();
-            break;
-        case $request::METHOD_GET:
-            $controller->handleCurrencyGetRequest();
-            break;
-    }
-} elseif ($controllerType === 'api')
-{
-    $controller = new CurrencyRestController($request, $langManager, $currencyService);
-    switch($request->getMethod())
-    {
-        case $request::METHOD_POST:
-            $controller->handleCurrencyPostRequest();
-            break;
-        case $request::METHOD_GET:
-            $controller->handleCurrencyGetRequest();
-            break;
-    }
-} else {
     http_response_code(404);
-    echo sprintf("Uri %s not found", $_SERVER['REQUEST_URI']);
+    echo sprintf("Uri %s %s not found", $request->getMethod(), $request->getRequestUri());
     exit();
 }
+
+$langManager = new LangManager($request);
+$currencyService = new CurrencyService(new CurrencyDbRepository(DbConnection::getPDO()), new CbrApiClient());
+
+$controller = new $route['controller']($request, $langManager, $currencyService);
+$controllerMethod = $route['controllerMethod'];
+$controller->$controllerMethod();
