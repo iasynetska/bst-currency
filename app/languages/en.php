@@ -10,5 +10,7 @@ return array (
         "name",
         "value",
         "date"
-    ]
+    ],
+    "loadSuccess" => "Database was successfully loaded",
+    "loadError" => "Error: %s"
 );

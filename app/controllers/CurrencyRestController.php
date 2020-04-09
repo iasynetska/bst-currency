@@ -6,6 +6,7 @@ use core\LangManager;
 use core\Request;
 use DateTime;
 use entities\CurrencyConverter;
+use Exception;
 use services\CurrencyService;
 
 class CurrencyRestController extends AbstractController
@@ -20,8 +21,16 @@ class CurrencyRestController extends AbstractController
 
     public function handleCurrencyPostRequest()
     {
-        $this->currencyService->populateDbWithCurrencies();
-        header(sprintf('Location: %s', '/'));
+        try
+        {
+            $this->currencyService->populateDbWithCurrencies();
+            echo json_encode(array("message" => $this->langManager->getLangParam('loadSuccess')));
+        }
+        catch (Exception $e)
+        {
+            http_response_code(500);
+            echo json_encode(array("message" => sprintf( $this->langManager->getLangParam('loadError'), $e->getMessage())));
+        }
     }
 
 

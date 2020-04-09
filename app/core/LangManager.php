@@ -12,7 +12,7 @@ class LangManager
         $this->request = $request;
     }
 
-    public function getLangParams()
+    private function getLangParams(): array
     {
         if(!isset($this->langParams))
         {
@@ -21,4 +21,8 @@ class LangManager
         return $this->langParams;
     }
 
+    public function getLangParam(String $name)
+    {
+        return $this->getLangParams()[$name];
+    }
 }

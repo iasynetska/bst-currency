@@ -34,10 +34,10 @@ class CurrencyHtmlController extends AbstractController
         echo $this->build(
             dirname(__DIR__, 1) . '/views/index.html.php',
             [
-                'title' => $this->langManager->getLangParams()['title'],
-                'loadButton' => $this->langManager->getLangParams()['loadButton'],
-                'showReportButton' => $this->langManager->getLangParams()['showReportButton'],
-                'columnNames' => $this->langManager->getLangParams()['columnNames'],
+                'title' => $this->langManager->getLangParam('title'),
+                'loadButton' => $this->langManager->getLangParam('loadButton'),
+                'showReportButton' => $this->langManager->getLangParam('showReportButton'),
+                'columnNames' => $this->langManager->getLangParam('columnNames'),
                 'currencies' => $arr_currencies,
                 'valutes' => CurrencyUtils::getAllCurrencyIds()
             ]
@@ -50,10 +50,10 @@ class CurrencyHtmlController extends AbstractController
         echo $this->build(
             dirname(__DIR__, 1) . '/views/index.html.php',
             [
-                'title' => $this->langManager->getLangParams()['title'],
-                'loadButton' => $this->langManager->getLangParams()['loadButton'],
-                'showReportButton' => $this->langManager->getLangParams()['showReportButton'],
-                'columnNames' => $this->langManager->getLangParams()['columnNames'],
+                'title' => $this->langManager->getLangParam('title'),
+                'loadButton' => $this->langManager->getLangParam('loadButton'),
+                'showReportButton' => $this->langManager->getLangParam('showReportButton'),
+                'columnNames' => $this->langManager->getLangParam('columnNames'),
                 'currencies' => [],
                 'valutes' => CurrencyUtils::getAllCurrencyIds()
             ]
