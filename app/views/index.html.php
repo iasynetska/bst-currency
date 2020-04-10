@@ -26,8 +26,9 @@
             <div class="date-block__item">
                 <select name="currency" class="item-dropdown">
                     <option value = "0">Select valute</option>
-                    <?php foreach($valutes as $valute):?>
-                        <option value = "<?=$valute['id']?>"><?=$valute['charCode'].' - '.$valute['id']?></option>
+                    <?php foreach($valutes as $valute):
+                        $select = ($currencySelected === $valute['id']) ? 'selected' :'';?>
+                        <option value = "<?=$valute['id']?>" <?=$select?>><?=$valute['charCode'].' - '.$valute['id']?></option>
                     <?php endforeach;?>
                 </select>
             </div>
@@ -65,8 +66,13 @@
     <script src="/js/common.js"></script>
     <script>
         $(function() {
-            $( "#datepickerFrom" ).datepicker();
-            $( "#datepickerTo" ).datepicker();
+            <?php if(isset($from) && isset($to)):?>
+                $('#datepickerFrom').datepicker().datepicker("setDate", "<?=$from;?>");
+                $('#datepickerTo').datepicker().datepicker("setDate", "<?=$to;?>");
+            <?php else:?>
+                $( "#datepickerFrom" ).datepicker();
+                $( "#datepickerTo" ).datepicker();
+            <?php endif;?>
         });
     </script>
 </body>
