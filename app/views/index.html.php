@@ -66,13 +66,17 @@
     <script src="/js/common.js"></script>
     <script>
         $(function() {
-            <?php if(isset($from) && isset($to)):?>
-                $('#datepickerFrom').datepicker().datepicker("setDate", "<?=$from;?>");
-                $('#datepickerTo').datepicker().datepicker("setDate", "<?=$to;?>");
-            <?php else:?>
-                $( "#datepickerFrom" ).datepicker();
-                $( "#datepickerTo" ).datepicker();
-            <?php endif;?>
+                $('#datepickerFrom').datepicker()
+                    .datepicker( "option", "dateFormat", "yy-mm-dd")
+                    .datepicker("setDate", "<?=$from;?>")
+                    .datepicker("option", "showAnim", "blind")
+                    .attr("autocomplete", "off");
+                $('#datepickerTo').datepicker()
+                    .datepicker( "option", "dateFormat", "yy-mm-dd")
+                    .datepicker("setDate", "<?=$to;?>")
+                    .datepicker("option", "showAnim", "blind")
+                    .attr("autocomplete", "off");
+
         });
     </script>
 </body>

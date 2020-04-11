@@ -20,11 +20,11 @@ class CurrencyHtmlController extends AbstractController
 
     public function handleCurrencyPostRequest()
     {
-        $selectedDates = $this->getSelectedDates();
-        $currencies = $this->currencyService->getCurrencyByDateAndValuteId(
-            $selectedDates['from'],
-            $selectedDates['to'],
-            $this->request->getPostParam('currency'));
+        $currencySelected = $this->request->getPostParam('currency');
+        $from = $this->request->getPostParam('from');
+        $to = $this->request->getPostParam('to');
+
+        $currencies = $this->currencyService->getCurrencyByDateAndValuteId($from, $to, $currencySelected);
 
         $arr_currencies = [];
         foreach ($currencies as $currency) {
@@ -39,9 +39,9 @@ class CurrencyHtmlController extends AbstractController
                 'showReportButton' => $this->langManager->getLangParam('showReportButton'),
                 'columnNames' => $this->langManager->getLangParam('columnNames'),
                 'currencies' => $arr_currencies,
-                'currencySelected' => $this->request->getPostParam('currency'),
-                'from' => $this->request->getPostParam('from'),
-                'to' => $this->request->getPostParam('to'),
+                'currencySelected' => $currencySelected,
+                'from' => $from,
+                'to' => $to,
                 'valutes' => CurrencyUtils::getAllCurrencyIds()
             ]
         );
@@ -64,15 +64,6 @@ class CurrencyHtmlController extends AbstractController
                 'valutes' => CurrencyUtils::getAllCurrencyIds()
             ]
         );
-    }
-
-
-    private function getSelectedDates(): array
-    {
-        $from = date($this::DATE_FORMAT, strtotime($this->request->getPostParam('from')));
-        $to = date($this::DATE_FORMAT, strtotime($this->request->getPostParam('to')));
-
-        return array('from' => $from, 'to' => $to);
     }
 
     protected function build($template, array $params = [])
