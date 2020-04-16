@@ -2,8 +2,10 @@
 
 namespace controllers;
 
+use core\RequestValidator;
 use core\LangManager;
 use core\Request;
+use core\CurrencyValidatort;
 use currencies\CurrencyUtils;
 use entities\CurrencyConverter;
 use services\CurrencyService;
@@ -20,11 +22,22 @@ class CurrencyHtmlController extends AbstractController
 
     public function handleCurrencyPostRequest()
     {
-        $currencySelected = $this->request->getPostParam('currency');
-        $from = $this->request->getPostParam('from');
-        $to = $this->request->getPostParam('to');
+        $currencySelectedCode = $this->request->getPostParam('currency');
+        $selectedFromDate = $this->request->getPostParam('from');
+        $selectedToDate = $this->request->getPostParam('to');
 
-        $currencies = $this->currencyService->getCurrencyByDateAndValuteId($from, $to, $currencySelected);
+        $currencyValidator = new RequestValidator($this->langManager);
+        $validationErrorMessages = $currencyValidator->validateDataForCurrencyReport($currencySelectedCode, $selectedFromDate, $selectedToDate);
+
+
+        if(!empty($validationErrorMessages))
+        {
+            http_response_code(400);
+            echo json_encode($validationErrorMessages);
+            exit();
+        }
+
+        $currencies = $this->currencyService->getCurrencyByDateAndValuteId($selectedFromDate, $selectedToDate, $currencySelectedCode);
 
         $arr_currencies = [];
         foreach ($currencies as $currency) {
@@ -36,13 +49,14 @@ class CurrencyHtmlController extends AbstractController
             [
                 'title' => $this->langManager->getLangParam('title'),
                 'loadButton' => $this->langManager->getLangParam('loadButton'),
+                'selectOptionCurrency' => $this->langManager->getLangParam('selectOptionCurrency'),
                 'showReportButton' => $this->langManager->getLangParam('showReportButton'),
                 'columnNames' => $this->langManager->getLangParam('columnNames'),
                 'currencies' => $arr_currencies,
-                'currencySelected' => $currencySelected,
-                'from' => $from,
-                'to' => $to,
-                'valutes' => CurrencyUtils::getAllCurrencyIds()
+                'currencySelectedCode' => $currencySelectedCode,
+                'selectedFromDate' => $selectedFromDate,
+                'selectedToDate' => $selectedToDate,
+                'currencyCodes' => CurrencyUtils::getAllCurrencyIds()
             ]
         );
     }
@@ -55,13 +69,14 @@ class CurrencyHtmlController extends AbstractController
             [
                 'title' => $this->langManager->getLangParam('title'),
                 'loadButton' => $this->langManager->getLangParam('loadButton'),
+                'selectOptionCurrency' => $this->langManager->getLangParam('selectOptionCurrency'),
                 'showReportButton' => $this->langManager->getLangParam('showReportButton'),
                 'columnNames' => $this->langManager->getLangParam('columnNames'),
-                'currencySelected' => null,
-                'from' => null,
-                'to' => null,
+                'currencySelectedCode' => null,
+                'selectedFromDate' => null,
+                'selectedToDate' => null,
                 'currencies' => [],
-                'valutes' => CurrencyUtils::getAllCurrencyIds()
+                'currencyCodes' => CurrencyUtils::getAllCurrencyIds()
             ]
         );
     }

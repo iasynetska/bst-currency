@@ -4,7 +4,7 @@ namespace controllers;
 
 use core\LangManager;
 use core\Request;
-use DateTime;
+use core\RequestValidator;
 use entities\CurrencyConverter;
 use Exception;
 use services\CurrencyService;
@@ -30,18 +30,28 @@ class CurrencyRestController extends AbstractController
         {
             http_response_code(500);
             echo json_encode(array("message" => sprintf( $this->langManager->getLangParam('loadError'), $e->getMessage())));
+            exit();
         }
     }
 
 
     public function handleCurrencyGetRequest()
     {
-        $selectedDates = $this->getSelectedDates();
-        $currencies = $this->currencyService->getCurrencyByDateAndValuteId(
-            $selectedDates['from'],
-            $selectedDates['to'],
-            $this->request->getGetParam('valueID'));
+        $currencySelectedCode = $this->request->getGetParam("valueID");
+        $from = $this->request->getGetParam("from");
+        $to = $this->request->getGetParam("to");
 
+        $currencyValidator = new RequestValidator($this->langManager);
+        $validationErrorMessages = $currencyValidator->validateDataForCurrencyReport($currencySelectedCode, $from, $to);
+
+        if(!empty($validationErrorMessages))
+        {
+            http_response_code(400);
+            echo json_encode($validationErrorMessages);
+            exit();
+        }
+
+        $currencies = $this->currencyService->getCurrencyByDateAndValuteId($from, $to, $currencySelectedCode);
         $arr_currencies = [];
         foreach ($currencies as $currency) {
             array_push($arr_currencies, CurrencyConverter::entityToArray($currency));
@@ -51,25 +61,20 @@ class CurrencyRestController extends AbstractController
     }
 
 
-    private function getSelectedDates(): array
+    public function handleMessageGetRequest()
     {
-        $from = $this->request->getGetParam('from');
-        $to = $this->request->getGetParam('to');
+        $messageName = $this->request->getGetParam("messageName");
+        $message = $this->langManager->getLangParam($messageName);
 
-        if(!$this->validateDate($from) || !$this->validateDate($to))
+        if(isset($message))
         {
-            http_response_code(400);
-            echo sprintf("Date format is incorrect. Date should be formatted as %s", $this::DATE_FORMAT);
+            echo json_encode(array($messageName => $message));
+        }
+        else
+        {
+            http_response_code(404);
+            echo json_encode(array("error" => sprintf($this->langManager->getLangParam("messageNotFound"), $messageName)));
             exit();
         }
-
-        return array('from' => $from, 'to' => $to);
-    }
-
-
-    function validateDate($date)
-    {
-        $formattedDate = DateTime::createFromFormat($this::DATE_FORMAT, $date);
-        return $formattedDate && $formattedDate->format($this::DATE_FORMAT) === $date;
     }
 }

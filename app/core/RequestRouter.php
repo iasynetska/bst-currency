@@ -51,6 +51,13 @@ class RequestRouter
                         break;
                 }
             }
+            elseif (isset($uriParts[1]) && $uriParts[1] === 'messages') {
+                switch ($request->getMethod()) {
+                    case $request::METHOD_GET:
+                        $controllerMethod = 'handleMessageGetRequest';
+                        break;
+                }
+            }
             return self::prepareRoute($controller, $controllerMethod);
         }
         else

@@ -23,6 +23,6 @@ class LangManager
 
     public function getLangParam(String $name)
     {
-        return $this->getLangParams()[$name];
+        return array_key_exists($name, $this->getLangParams()) ? $this->getLangParams()[$name] : null;
     }
 }

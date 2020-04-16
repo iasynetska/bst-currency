@@ -19,16 +19,16 @@
 
 <body>
     <div class="wrapper d-flex flex-column">
-        <button type="button" id="load-btn" class="btn btn-secondary btn-lg btn-block" onclick="loadDataBase()"><?=$loadButton?></button>
+        <button type="button" id="load-btn" class="btn btn-secondary btn-lg btn-block" onclick="loadDatabase()"><?=$loadButton?></button>
 
-        <form class="date-block d-flex flex-wrap justify-content-center" action="" method="post">
+        <form class="date-block d-flex flex-wrap justify-content-center" action="" method="post" onsubmit="return validateCurrencyRequestFields()">
 
             <div class="date-block__item">
-                <select name="currency" class="item-dropdown">
-                    <option value = "0">Select valute</option>
-                    <?php foreach($valutes as $valute):
-                        $select = ($currencySelected === $valute['id']) ? 'selected' :'';?>
-                        <option value = "<?=$valute['id']?>" <?=$select?>><?=$valute['charCode'].' - '.$valute['id']?></option>
+                <select name="currency" class="item-dropdown" oninput="cleanErrorBorder(this)">
+                    <option value = ""><?=$selectOptionCurrency?></option>
+                    <?php foreach($currencyCodes as $currencyCode):
+                        $select = ($currencySelectedCode === $currencyCode['id']) ? 'selected' :'';?>
+                        <option value = "<?=$currencyCode['id']?>" <?=$select?>><?=$currencyCode['charCode'].' - '.$currencyCode['id']?></option>
                     <?php endforeach;?>
                 </select>
             </div>
@@ -64,20 +64,9 @@
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
     <script src="/js/common.js"></script>
-    <script>
-        $(function() {
-                $('#datepickerFrom').datepicker()
-                    .datepicker( "option", "dateFormat", "yy-mm-dd")
-                    .datepicker("setDate", "<?=$from;?>")
-                    .datepicker("option", "showAnim", "blind")
-                    .attr("autocomplete", "off");
-                $('#datepickerTo').datepicker()
-                    .datepicker( "option", "dateFormat", "yy-mm-dd")
-                    .datepicker("setDate", "<?=$to;?>")
-                    .datepicker("option", "showAnim", "blind")
-                    .attr("autocomplete", "off");
 
-        });
+    <script>
+        $(addAndSetDatepickers("<?=$selectedFromDate;?>", "<?=$selectedToDate;?>"));
     </script>
 </body>
 </html>

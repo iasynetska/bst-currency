@@ -44,7 +44,7 @@ class Request
     
     public function getGetParam($key)
     {
-        return $this->getParam($this->get, $key);
+        return $this->isGetParam($key) ? $this->getParam($this->get, $key) : null;
     }
     
     public function getGetParams()
@@ -62,7 +62,7 @@ class Request
         return $this->getMethod() === self::METHOD_GET;
     }
     
-    public function isGetParam($key)
+    private function isGetParam($key)
     {
         return isset($this->get[$key]);
     }
