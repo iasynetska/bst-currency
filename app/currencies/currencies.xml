@@ -2,138 +2,138 @@
 <Valutes>
     <Valute>
         <ID>R01010</ID>
-        <CharCode>AUD</CharCode>
+        <currencyCode>AUD</currencyCode>
     </Valute>
     <Valute>
         <ID>R01020A</ID>
-        <CharCode>AZN</CharCode>
+        <currencyCode>AZN</currencyCode>
     </Valute>
     <Valute>
         <ID>R01035</ID>
-        <CharCode>GBP</CharCode>
+        <currencyCode>GBP</currencyCode>
     </Valute>
     <Valute>
         <ID>R01060</ID>
-        <CharCode>AMD</CharCode>
+        <currencyCode>AMD</currencyCode>
     </Valute>
     <Valute>
         <ID>R01090B</ID>
-        <CharCode>BYN</CharCode>
+        <currencyCode>BYN</currencyCode>
     </Valute>
     <Valute>
         <ID>R01100</ID>
-        <CharCode>BGN</CharCode>
+        <currencyCode>BGN</currencyCode>
     </Valute>
     <Valute>
         <ID>R01115</ID>
-        <CharCode>BRL</CharCode>
+        <currencyCode>BRL</currencyCode>
     </Valute>
     <Valute>
         <ID>R01135</ID>
-        <CharCode>HUF</CharCode>
+        <currencyCode>HUF</currencyCode>
     </Valute>
     <Valute>
         <ID>R01200</ID>
-        <CharCode>HKD</CharCode>
+        <currencyCode>HKD</currencyCode>
     </Valute>
     <Valute>
         <ID>R01215</ID>
-        <CharCode>DKK</CharCode>
+        <currencyCode>DKK</currencyCode>
     </Valute>
     <Valute>
         <ID>R01235</ID>
-        <CharCode>USD</CharCode>
+        <currencyCode>USD</currencyCode>
     </Valute>
     <Valute>
         <ID>R01239</ID>
-        <CharCode>EUR</CharCode>
+        <currencyCode>EUR</currencyCode>
     </Valute>
     <Valute>
         <ID>R01270</ID>
-        <CharCode>INR</CharCode>
+        <currencyCode>INR</currencyCode>
     </Valute>
     <Valute>
         <ID>R01335</ID>
-        <CharCode>KZT</CharCode>
+        <currencyCode>KZT</currencyCode>
     </Valute>
     <Valute>
         <ID>R01350</ID>
-        <CharCode>CAD</CharCode>
+        <currencyCode>CAD</currencyCode>
     </Valute>
     <Valute>
         <ID>R01370</ID>
-        <CharCode>KGS</CharCode>
+        <currencyCode>KGS</currencyCode>
     </Valute>
     <Valute>
         <ID>R01375</ID>
-        <CharCode>CNY</CharCode>
+        <currencyCode>CNY</currencyCode>
     </Valute>
     <Valute>
         <ID>R01500</ID>
-        <CharCode>MDL</CharCode>
+        <currencyCode>MDL</currencyCode>
     </Valute>
     <Valute>
         <ID>R01535</ID>
-        <CharCode>NOK</CharCode>
+        <currencyCode>NOK</currencyCode>
     </Valute>
     <Valute>
         <ID>R01565</ID>
-        <CharCode>PLN</CharCode>
+        <currencyCode>PLN</currencyCode>
     </Valute>
     <Valute>
         <ID>R01585F</ID>
-        <CharCode>RON</CharCode>
+        <currencyCode>RON</currencyCode>
     </Valute>
     <Valute>
         <ID>R01589</ID>
-        <CharCode>XDR</CharCode>
+        <currencyCode>XDR</currencyCode>
     </Valute>
     <Valute>
         <ID>R01625</ID>
-        <CharCode>SGD</CharCode>
+        <currencyCode>SGD</currencyCode>
     </Valute>
     <Valute>
         <ID>R01670</ID>
-        <CharCode>TJS</CharCode>
+        <currencyCode>TJS</currencyCode>
     </Valute>
     <Valute>
         <ID>R01700J</ID>
-        <CharCode>TRY</CharCode>
+        <currencyCode>TRY</currencyCode>
     </Valute>
     <Valute>
         <ID>R01710A</ID>
-        <CharCode>TMT</CharCode>
+        <currencyCode>TMT</currencyCode>
     </Valute>
     <Valute>
         <ID>R01717</ID>
-        <CharCode>UZS</CharCode>
+        <currencyCode>UZS</currencyCode>
     </Valute>
     <Valute>
         <ID>R01720</ID>
-        <CharCode>UAH</CharCode>
+        <currencyCode>UAH</currencyCode>
     </Valute>
     <Valute>
         <ID>R01760</ID>
-        <CharCode>CZK</CharCode>
+        <currencyCode>CZK</currencyCode>
     </Valute>
     <Valute>
         <ID>R01770</ID>
-        <CharCode>SEK</CharCode>
+        <currencyCode>SEK</currencyCode>
     </Valute>
     <Valute>
         <ID>R01775</ID>
-        <CharCode>CHF</CharCode>
+        <currencyCode>CHF</currencyCode>
     </Valute>
     <Valute>
         <ID>R01810</ID>
-        <CharCode>ZAR</CharCode>
+        <currencyCode>ZAR</currencyCode>
     </Valute>
     <Valute>
         <ID>R01815</ID>
-        <CharCode>KRW</CharCode>
+        <currencyCode>KRW</currencyCode>
     </Valute>
     <Valute>
         <ID>R01820</ID>
-        <CharCode>JPY</CharCode>
+        <currencyCode>JPY</currencyCode>
     </Valute>
 </Valutes>

@@ -18,7 +18,7 @@
 </head>
 
 <body>
-    <div class="wrapper d-flex flex-column">
+    <div class="container d-flex flex-column">
         <button type="button" id="load-btn" class="btn btn-secondary btn-lg btn-block" onclick="loadDatabase()"><?=$loadButton?></button>
 
         <form class="date-block d-flex flex-wrap justify-content-center" action="" method="post" onsubmit="return validateCurrencyRequestFields()">
@@ -28,7 +28,7 @@
                     <option value = ""><?=$selectOptionCurrency?></option>
                     <?php foreach($currencyCodes as $currencyCode):
                         $select = ($currencySelectedCode === $currencyCode['id']) ? 'selected' :'';?>
-                        <option value = "<?=$currencyCode['id']?>" <?=$select?>><?=$currencyCode['charCode'].' - '.$currencyCode['id']?></option>
+                        <option value = "<?=$currencyCode['id']?>" <?=$select?>><?=$currencyCode['currencyCode']?></option>
                     <?php endforeach;?>
                 </select>
             </div>
@@ -39,22 +39,20 @@
         </form>
 
         <table class="table table-striped">
-            <thead>
-                <tr>
+            <thead class="container-fluid">
+                <tr class="row">
                 <?php foreach($columnNames as $columnName):?>
-                    <th scope="col"><?=$columnName?></th>
+                    <th class="col-sm-3"><?=$columnName?></th>
                 <?php endforeach;?>
                 </tr>
             </thead>
             <tbody>
             <?php foreach($currencies as $currency):?>
-                <tr>
-                    <td class="#"><?=$currency['valuteID']?></td>
-                    <td class="#"><?=$currency['numCode']?></td>
-                    <td class="#"><?=$currency['сharCode']?></td>
-                    <td class="#"><?=$currency['name']?></td>
-                    <td class="#"><?=$currency['value']?></td>
-                    <td class="#"><?=$currency['date']?></td>
+                <tr class="row">
+                    <td class="col-sm-3"><?=$currency['currencyCode']?></td>
+                    <td class="col-sm-3"><?=$currency['name']?></td>
+                    <td class="col-sm-3"><?=$currency['value']?></td>
+                    <td class="col-sm-3"><?=$currency['date']?></td>
                 </tr>
             <?php endforeach;?>
             </tbody>

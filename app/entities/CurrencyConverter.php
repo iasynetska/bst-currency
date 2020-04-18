@@ -11,9 +11,9 @@ class CurrencyConverter
     public static function entityToArray(Currency $entity)
     {
         return [
-            'valuteID' => $entity->getValuteID(),
+            'currencyID' => $entity->getCurrencyID(),
             'numCode' => $entity->getNumCode(),
-            'сharCode' => $entity->getСharCode(),
+            'currencyCode' => $entity->getCurrencyCode(),
             'name' => $entity->getName(),
             'value' => $entity->getValue(),
             'date' => $entity->getDate()
@@ -23,9 +23,9 @@ class CurrencyConverter
     public static function arrayToEntity($array): Currency
     {
         return new Currency(
-            $array['valuteID'],
+            $array['currencyID'],
             $array['numCode'],
-            $array['сharCode'],
+            $array['currencyCode'],
             $array['name'],
             $array['value'],
             $array['date']

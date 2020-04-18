@@ -28,7 +28,7 @@ class CbrCurrencyApiClient implements CurrencyApiClientInterface
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_URL, 'http://www.cbr.ru/scripts/XML_daily.asp?date_req=' . $date);
+        curl_setopt($curl, CURLOPT_URL, 'http://www.cbr.ru/scripts/XML_daily_eng.asp?date_req=' . $date);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
 

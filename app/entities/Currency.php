@@ -5,27 +5,27 @@ namespace entities;
 
 class Currency
 {
-    private $valuteID;
+    private $currencyID;
     private $numCode;
-    private $сharCode;
+    private $currencyCode;
     private $name;
     private $value;
     private $date;
 
 
-    public function __construct(String $valuteID, int $numCode, String $сharCode, String $name, float $value, $date)
+    public function __construct(String $currencyID, int $numCode, String $currencyCode, String $name, float $value, $date)
     {
-        $this->valuteID = $valuteID;
+        $this->currencyID = $currencyID;
         $this->numCode = $numCode;
-        $this->сharCode = $сharCode;
+        $this->currencyCode = $currencyCode;
         $this->name = $name;
         $this->value = $value;
         $this->date = $date;
     }
 
-    public function getValuteID(): String
+    public function getCurrencyID(): String
     {
-        return $this->valuteID;
+        return $this->currencyID;
     }
 
     public function getNumCode(): int
@@ -33,9 +33,9 @@ class Currency
         return $this->numCode;
     }
 
-    public function getСharCode(): String
+    public function getCurrencyCode(): String
     {
-        return $this->сharCode;
+        return $this->currencyCode;
     }
 
     public function getName(): String

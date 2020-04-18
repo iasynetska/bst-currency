@@ -9,6 +9,6 @@ use entities\Currency;
 interface CurrencyRepositoryInterface
 {
     public function addCurrency(Currency $currency): void;
-    public function getCurrencyByDateAndValuteId(String $from, String $to, String $valuteId): array;
-    public function deleteCurrencyByDate(String $date): void;
+    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyID): array;
+    public function deleteAllCurrencies(): void;
 }

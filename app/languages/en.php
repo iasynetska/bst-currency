@@ -5,9 +5,7 @@ return array (
     "selectOptionCurrency" => "Select currency",
     "showReportButton" => "Show report",
     "columnNames" => [
-        "valuteID",
-        "numCode",
-        "сharCode",
+        "code",
         "name",
         "value",
         "date"
