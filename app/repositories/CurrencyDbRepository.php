@@ -65,4 +65,15 @@ class CurrencyDbRepository implements CurrencyRepositoryInterface
         $stmt = $this->pdo->prepare($sql);
         $stmt->execute();
     }
+
+    public function getMinAndMaxDate(): array
+    {
+        $sql = "SELECT min(date) AS min_date, max(date) AS max_date FROM currency";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->execute();
+        $result = $stmt->fetch();
+
+        return array("minDate" => $result["min_date"], "maxDate" => $result["max_date"]);
+    }
 }

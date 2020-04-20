@@ -21,6 +21,8 @@
     <div class="container d-flex flex-column">
         <button type="button" id="load-btn" class="btn btn-secondary btn-lg btn-block" onclick="loadDatabase()"><?=$loadButton?></button>
 
+        <div class="info"><?=$actualInformation?></div>
+
         <form class="date-block d-flex flex-wrap justify-content-center" action="" method="post" onsubmit="return validateCurrencyRequestFields()">
 
             <div class="date-block__item">
@@ -33,8 +35,12 @@
                 </select>
             </div>
 
-            <div class="date-block__item">From: <input name="from" type="text" id="datepickerFrom" class="field"></div>
-            <div class="date-block__item">To: <input name="to" type="text" id="datepickerTo" class="field"></div>
+            <div class="d-flex flex-wrap justify-content-center">
+                <div class="date-block__item"><input name="from" type="text" id="datepickerFrom" class="field"></div>
+                <div class="date-block__item"><input name="to" type="text" id="datepickerTo" class="field"></div>
+            </div>
+
+
             <div class="date-block__item"><button type="submit" id="showReportBtn" class="btn-sm btn btn-secondary"><?=$showReportButton?></button></div>
         </form>
 

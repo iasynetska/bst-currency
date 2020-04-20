@@ -44,11 +44,16 @@ class CurrencyHtmlController extends AbstractController
             array_push($arr_currencies, CurrencyConverter::entityToArray($currency));
         }
 
+        $minDate = $this->currencyService->getMinAndMaxDate()["minDate"];
+        $maxDate = $this->currencyService->getMinAndMaxDate()["maxDate"];
+        $actualInformation = isset($minDate) && isset($maxDate) ? sprintf($this->langManager->getLangParam('currencyAvailability'), $minDate, $maxDate) : $this->langManager->getLangParam('emptyDatabase');
+
         echo $this->build(
             dirname(__DIR__, 1) . '/views/index.html.php',
             [
                 'title' => $this->langManager->getLangParam('title'),
                 'loadButton' => $this->langManager->getLangParam('loadButton'),
+                'actualInformation' => $actualInformation,
                 'selectOptionCurrency' => $this->langManager->getLangParam('selectOptionCurrency'),
                 'showReportButton' => $this->langManager->getLangParam('showReportButton'),
                 'columnNames' => $this->langManager->getLangParam('columnNames'),
@@ -64,11 +69,16 @@ class CurrencyHtmlController extends AbstractController
 
     public function handleCurrencyGetRequest()
     {
+        $minDate = $this->currencyService->getMinAndMaxDate()["minDate"];
+        $maxDate = $this->currencyService->getMinAndMaxDate()["maxDate"];
+        $actualInformation = isset($minDate) && isset($maxDate) ? sprintf($this->langManager->getLangParam('currencyAvailability'), $minDate, $maxDate) : $this->langManager->getLangParam('emptyDatabase');
+
         echo $this->build(
             dirname(__DIR__, 1) . '/views/index.html.php',
             [
                 'title' => $this->langManager->getLangParam('title'),
                 'loadButton' => $this->langManager->getLangParam('loadButton'),
+                'actualInformation' => $actualInformation,
                 'selectOptionCurrency' => $this->langManager->getLangParam('selectOptionCurrency'),
                 'showReportButton' => $this->langManager->getLangParam('showReportButton'),
                 'columnNames' => $this->langManager->getLangParam('columnNames'),

@@ -24,7 +24,13 @@ class CurrencyRestController extends AbstractController
         try
         {
             $this->currencyService->populateDbWithCurrencies();
-            echo json_encode(array("message" => $this->langManager->getLangParam('loadSuccess')));
+            $minDate = $this->currencyService->getMinAndMaxDate()["minDate"];
+            $maxDate = $this->currencyService->getMinAndMaxDate()["maxDate"];
+
+            echo json_encode(array(
+                "message" => $this->langManager->getLangParam('loadSuccess'),
+                "actualInformation" => sprintf($this->langManager->getLangParam('currencyAvailability'), $minDate, $maxDate)
+            ));
         }
         catch (Exception $e)
         {

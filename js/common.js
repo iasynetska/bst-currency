@@ -7,19 +7,21 @@ const arrErrorMessages = new Map();
  */
 function addAndSetDatepickers(selectedFromDate, selectedToDate) {
     $('#datepickerFrom').datepicker()
-        .datepicker( "option", "dateFormat", "yy-mm-dd")
+        .datepicker("option", "dateFormat", "yy-mm-dd")
         .datepicker("setDate", selectedFromDate)
         .datepicker("option", "showAnim", "blind")
         .attr("autocomplete", "off")
-        .click(function(e){
+        .attr("placeholder", "From")
+        .click(function (e) {
             cleanErrorBorder(e.target);
         });
     $('#datepickerTo').datepicker()
-        .datepicker( "option", "dateFormat", "yy-mm-dd")
+        .datepicker("option", "dateFormat", "yy-mm-dd")
         .datepicker("setDate", selectedToDate)
         .datepicker("option", "showAnim", "blind")
         .attr("autocomplete", "off")
-        .click(function(e){
+        .attr("placeholder", "To")
+        .click(function (e) {
             cleanErrorBorder(e.target);
         });
 }
@@ -27,8 +29,7 @@ function addAndSetDatepickers(selectedFromDate, selectedToDate) {
 /**
  * On-click function to send request to a server to load most recent currency data to database
  */
-function loadDatabase()
-{
+function loadDatabase() {
     const btn = $("#load-btn");
 
     btn.text("Database is being loaded. Please wait...");
@@ -37,28 +38,28 @@ function loadDatabase()
     btn.prop("disabled", true);
 
     sentRequestToLoadDatabase(
+        response => {
+            btn.text(response.message);
+            btn.removeClass("btn-info").addClass("btn-success");
+            $(".info").text(response.actualInformation);
+        },
         message => {
-        btn.text(message);
-        btn.removeClass("btn-info").addClass("btn-success");
-    },
-            message => {
-        btn.text(message);
-        btn.removeClass("btn-info").addClass("btn-danger");
-        btn.removeAttr( "disabled" );
-    });
+            btn.text(message);
+            btn.removeClass("btn-info").addClass("btn-danger");
+            btn.removeAttr("disabled");
+        });
 }
 
 
-function sentRequestToLoadDatabase(success, error)
-{
+function sentRequestToLoadDatabase(success, error) {
     $.ajax({
         url: "/api/loaddata",
         method: "post",
         dataType: "json"
     })
-    .done(response => success(response.message))
-    .fail(response => error(response.responseJSON === undefined ? response.responseText : response.responseJSON.message)
-    );
+        .done(response => success(response))
+        .fail(response => error(response.responseJSON === undefined ? response.responseText : response.responseJSON.message)
+        );
 }
 
 
@@ -66,8 +67,7 @@ function sentRequestToLoadDatabase(success, error)
  * Validate fields 'From', 'To' and 'Currency' selected in html
  * @returns {boolean} In case of 'false' the request wil be aborted
  */
-function validateCurrencyRequestFields()
-{
+function validateCurrencyRequestFields() {
     $(".error-message").remove();
 
     const currencySelected = $(".item-dropdown");
@@ -79,8 +79,7 @@ function validateCurrencyRequestFields()
     const toValid = validateFieldTo(to);
 
     let toLargerFrom = true;
-    if(fromValid && toValid)
-    {
+    if (fromValid && toValid) {
         toLargerFrom = isToLargerFrom(from, to);
     }
 
@@ -88,10 +87,8 @@ function validateCurrencyRequestFields()
 }
 
 
-function validateCurrencySelected(currencySelected)
-{
-    if(isStringEmpty(currencySelected.find('option').filter(":selected").val()))
-    {
+function validateCurrencySelected(currencySelected) {
+    if (isStringEmpty(currencySelected.find('option').filter(":selected").val())) {
         currencySelected.addClass("error-field");
         addErrorMessage("currencySelectedErrorNotSelected");
         return false;
@@ -100,16 +97,12 @@ function validateCurrencySelected(currencySelected)
 }
 
 
-function validateFieldFrom(from)
-{
-    if(isStringEmpty(from.val()))
-    {
+function validateFieldFrom(from) {
+    if (isStringEmpty(from.val())) {
         from.addClass("error-field");
         addErrorMessage("fromErrorNotSelected");
         return false;
-    }
-    else if(!isDateValid(from.val()))
-    {
+    } else if (!isDateValid(from.val())) {
         from.addClass("error-field");
         addErrorMessage("fromErrorInvalidFormat");
         return false;
@@ -118,16 +111,12 @@ function validateFieldFrom(from)
 }
 
 
-function validateFieldTo(to)
-{
-    if(isStringEmpty(to.val()))
-    {
+function validateFieldTo(to) {
+    if (isStringEmpty(to.val())) {
         to.addClass("error-field");
         addErrorMessage("toErrorNotSelected");
         return false;
-    }
-    else if(!isDateValid(to.val()))
-    {
+    } else if (!isDateValid(to.val())) {
         to.addClass("error-field");
         addErrorMessage("toErrorInvalidFormat");
         return false;
@@ -141,10 +130,8 @@ function validateFieldTo(to)
  * @param to
  * @returns {boolean}
  */
-function isToLargerFrom(from, to)
-{
-    if(to.datepicker("getDate") < from.datepicker("getDate"))
-    {
+function isToLargerFrom(from, to) {
+    if (to.datepicker("getDate") < from.datepicker("getDate")) {
         from.addClass("error-field");
         addErrorMessage("periodErrorFromLargerTo");
         return false;
@@ -153,8 +140,7 @@ function isToLargerFrom(from, to)
 }
 
 
-function isStringEmpty(context)
-{
+function isStringEmpty(context) {
     return context === null || context === "";
 }
 
@@ -164,29 +150,22 @@ function isStringEmpty(context)
  * @param date
  * @returns {boolean}
  */
-function isDateValid(date)
-{
+function isDateValid(date) {
     const dateFormat = /^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/;
     return dateFormat.test(date);
 }
 
 
-function cleanErrorBorder(element)
-{
+function cleanErrorBorder(element) {
     $(element).removeClass("error-field");
 }
 
 
-function addErrorMessage(messageName)
-{
-    try
-    {
-        if(arrErrorMessages.has(messageName))
-        {
+function addErrorMessage(messageName) {
+    try {
+        if (arrErrorMessages.has(messageName)) {
             createDivElementAndPutMessage(arrErrorMessages.get(messageName));
-        }
-        else
-        {
+        } else {
             getErrorMessageFromServer(messageName,
                 message => {
                     arrErrorMessages.set(messageName, message[messageName]);
@@ -197,17 +176,14 @@ function addErrorMessage(messageName)
                 }
             );
         }
-    }
-    catch(exception)
-    {
+    } catch (exception) {
         console.error(exception);
         alert(exception);
     }
 }
 
 
-function getErrorMessageFromServer(messageName, success, error)
-{
+function getErrorMessageFromServer(messageName, success, error) {
     $.ajax({
         url: "/api/messages",
         method: "get",
@@ -219,8 +195,7 @@ function getErrorMessageFromServer(messageName, success, error)
 }
 
 
-function createDivElementAndPutMessage(context)
-{
+function createDivElementAndPutMessage(context) {
     const div = $("<div />", {
         class: "error-message",
         text: context

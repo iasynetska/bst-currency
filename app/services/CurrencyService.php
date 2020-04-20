@@ -28,6 +28,11 @@ class CurrencyService implements CurrencyServiceInterface
         return $this->currencyRepository->getCurrencyByDateAndCurrencyId($from, $to, $currencyId);
     }
 
+    public function getMinAndMaxDate()
+    {
+        return $this->currencyRepository->getMinAndMaxDate();
+    }
+
 
     public function populateDbWithCurrencies()
     {
