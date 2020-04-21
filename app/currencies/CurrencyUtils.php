@@ -11,7 +11,7 @@ class CurrencyUtils
         $currenciesArr = array();
         foreach ($currencies as $currency)
         {
-            array_push($currenciesArr, ['id' => (string)$currency->ID, 'currencyCode' => (string)$currency->currencyCode]);
+            array_push($currenciesArr, ["currencyCode" => (string)$currency->Code]);
         }
 
         return $currenciesArr;

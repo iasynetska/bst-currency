@@ -4,7 +4,7 @@ return array (
     "loadButton" => "Click for loading Database for the last 60 days",
     "selectOptionCurrency" => "Select currency",
     "showReportButton" => "Show report",
-    "currencyAvailability" => "Currency rates are available from %s to %s",
+    "currencyAvailability" => "Polish zloty exchange rates are available from %s to %s",
     "emptyDatabase" => "Database is empty",
     "columnNames" => [
         "code",

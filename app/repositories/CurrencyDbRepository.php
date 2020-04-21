@@ -38,8 +38,6 @@ class CurrencyDbRepository implements CurrencyRepositoryInterface
     {
         $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to AND code = :currencyCode";
 
-//        $params = array('from'=>$from, 'to'=>$to, 'code'=>$currencyCode);
-
         $stmt = $this->pdo->prepare($sql);
         $stmt->bindParam(':from', $from);
         $stmt->bindParam(':to', $to);

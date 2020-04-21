@@ -37,7 +37,7 @@ class CurrencyHtmlController extends AbstractController
             exit();
         }
 
-        $currencies = $this->currencyService->getCurrencyByDateAndCurrencyId($selectedFromDate, $selectedToDate, $currencySelectedCode);
+        $currencies = $this->currencyService->getCurrencyByDateAndCurrencyCode($selectedFromDate, $selectedToDate, $currencySelectedCode);
 
         $arr_currencies = [];
         foreach ($currencies as $currency) {
