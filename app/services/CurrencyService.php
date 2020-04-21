@@ -9,9 +9,6 @@ use repositories\CurrencyDbRepository;
 
 class CurrencyService implements CurrencyServiceInterface
 {
-    private $apiDateFormat = 'd/m/Y';
-    private $apiDaysToFillDb = 30;
-
     private $currencyRepository;
     private $currencyApiClient;
 
@@ -36,21 +33,13 @@ class CurrencyService implements CurrencyServiceInterface
 
     public function populateDbWithCurrencies()
     {
-        $date = date($this->apiDateFormat);
-
         try{
             DbConnection::getPDO()->beginTransaction();
             $this->currencyRepository->deleteAllCurrencies();
-
-            for ($i = 0; $i <=$this->apiDaysToFillDb; $i++)
+            $currencies = $this->currencyApiClient->getCurrenciesByDate();
+            foreach ($currencies as $currency)
             {
-                $currencies = $this->currencyApiClient->getCurrenciesByDate($date);
-                foreach ($currencies as $currency)
-                {
-                    $this->currencyRepository->addCurrency($currency);
-                }
-
-                $date = date($this->apiDateFormat, strtotime($currencies[0]->getDate() . ' -1 day'));
+                $this->currencyRepository->addCurrency($currency);
             }
             DbConnection::getPDO()->commit();
         }

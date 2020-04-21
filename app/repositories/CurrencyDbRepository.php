@@ -16,22 +16,18 @@ class CurrencyDbRepository implements CurrencyRepositoryInterface
 
     public function addCurrency(Currency $currency): void
     {
-        $sql = "INSERT INTO currency (currencyID, numCode, currencyCode, name, value, date) VALUES (:currencyID, :numCode, :currencyCode, :name, :value, :date)";
+        $sql = "INSERT INTO currency (name, code, middleRate, date) VALUES (:name, :code, :middleRate, :date)";
 
-        $currencyID = $currency->getCurrencyID();
-        $numCode = $currency->getNumCode();
-        $currencyCode = $currency->getCurrencyCode();
         $name = $currency->getName();
-        $value = $currency->getValue();
+        $code = $currency->getCode();
+        $middleRate = $currency->getMiddleRate();
         $date = $currency->getDate();
 
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->bindParam(':currencyID', $currencyID, PDO::PARAM_STR);
-        $stmt->bindParam(':numCode', $numCode, PDO::PARAM_INT);
-        $stmt->bindParam(':currencyCode', $currencyCode, PDO::PARAM_STR);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':value', $value);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->bindParam(':middleRate', $middleRate);
         $stmt->bindParam(':date', $date);
 
 

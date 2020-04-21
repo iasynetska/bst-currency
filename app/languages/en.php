@@ -1,7 +1,7 @@
 <?php
 return array (
     "title" => "BST currency",
-    "loadButton" => "Click for loading Database for the last 30 days",
+    "loadButton" => "Click for loading Database for the last 60 days",
     "selectOptionCurrency" => "Select currency",
     "showReportButton" => "Show report",
     "currencyAvailability" => "Currency rates are available from %s to %s",

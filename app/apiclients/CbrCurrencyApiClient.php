@@ -19,17 +19,17 @@ class CbrCurrencyApiClient implements CurrencyApiClientInterface
     ];
 
     /**
-     * @param String $date format d/m/Y
      * @return array of Currency
      * @throws Exception
      */
-    public function getCurrenciesByDate(String $date): array
+    public function getCurrenciesByDate(): array
     {
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_URL, 'http://www.cbr.ru/scripts/XML_daily_eng.asp?date_req=' . $date);
+        curl_setopt($curl, CURLOPT_URL, 'https://api.nbp.pl/api/exchangerates/tables/a/last/60');
         curl_setopt($curl, CURLOPT_HEADER, false);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');
 
         $out = curl_exec($curl);
@@ -38,7 +38,7 @@ class CbrCurrencyApiClient implements CurrencyApiClientInterface
 
         $this->checkResponseCode((int)$code);
 
-        return CurrencyConverter::xmlToEntities($out);
+        return CurrencyConverter::jsonToEntities($out);
     }
 
 
