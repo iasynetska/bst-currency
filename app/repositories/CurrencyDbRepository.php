@@ -34,14 +34,17 @@ class CurrencyDbRepository implements CurrencyRepositoryInterface
         $stmt->execute();
     }
 
-    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyID): array
+    public function getCurrencyByDateAndCurrencyCode(String $from, String $to, String $currencyCode): array
     {
-        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to AND currencyID = :currencyID";
+        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to AND code = :currencyCode";
 
-        $params = array('from'=>$from, 'to'=>$to, 'currencyID'=>$currencyID);
+//        $params = array('from'=>$from, 'to'=>$to, 'code'=>$currencyCode);
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
+        $stmt->bindParam(':from', $from);
+        $stmt->bindParam(':to', $to);
+        $stmt->bindParam(':currencyCode', $currencyCode, PDO::PARAM_STR);
+        $stmt->execute();
 
         $result = $stmt->fetchAll();
 

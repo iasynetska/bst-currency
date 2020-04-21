@@ -6,6 +6,6 @@ namespace services;
 
 interface CurrencyServiceInterface
 {
-    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyId): array;
+    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyCode): array;
     public function populateDbWithCurrencies();
 }

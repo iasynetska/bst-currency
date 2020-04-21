@@ -20,9 +20,9 @@ class CurrencyService implements CurrencyServiceInterface
     }
 
 
-    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyId): array
+    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyCode): array
     {
-        return $this->currencyRepository->getCurrencyByDateAndCurrencyId($from, $to, $currencyId);
+        return $this->currencyRepository->getCurrencyByDateAndCurrencyCode($from, $to, $currencyCode);
     }
 
     public function getMinAndMaxDate()

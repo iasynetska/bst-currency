@@ -88,9 +88,14 @@ function validateCurrencyRequestFields() {
 
 
 function validateCurrencySelected(currencySelected) {
-    if (isStringEmpty(currencySelected.find('option').filter(":selected").val())) {
+    const currencyCode = currencySelected.find('option').filter(":selected").val();
+    if (isStringEmpty(currencyCode)) {
         currencySelected.addClass("error-field");
         addErrorMessage("currencySelectedErrorNotSelected");
+        return false;
+    } else if (!isCurrencyValid(currencyCode)) {
+        currencySelected.addClass("error-field");
+        addErrorMessage("currencyCodeErrorInvalid");
         return false;
     }
     return true;
@@ -142,6 +147,12 @@ function isToLargerFrom(from, to) {
 
 function isStringEmpty(context) {
     return context === null || context === "";
+}
+
+
+function isCurrencyValid(currencyCode) {
+    const codeFormat = /^[A-Z]{3}$/;
+    return codeFormat.test(currencyCode);
 }
 
 

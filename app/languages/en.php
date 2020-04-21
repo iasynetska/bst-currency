@@ -15,6 +15,7 @@ return array (
     "loadSuccess" => "Database was successfully loaded",
     "loadError" => "Error: %s",
     "currencySelectedErrorNotSelected" => "Field 'Currency' is empty",
+    "currencyCodeErrorInvalid" => "Currency code invalid format",
     "fromErrorNotSelected" => "Field 'From' is empty",
     "toErrorNotSelected" => "Field 'To' is empty",
     "fromErrorInvalidFormat" => "Field 'From' invalid format",

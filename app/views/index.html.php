@@ -29,8 +29,8 @@
                 <select name="currency" class="item-dropdown" oninput="cleanErrorBorder(this)">
                     <option value = ""><?=$selectOptionCurrency?></option>
                     <?php foreach($currencyCodes as $currencyCode):
-                        $select = ($currencySelectedCode === $currencyCode['id']) ? 'selected' :'';?>
-                        <option value = "<?=$currencyCode['id']?>" <?=$select?>><?=$currencyCode['currencyCode']?></option>
+                        $select = ($currencySelectedCode === $currencyCode['currencyCode']) ? 'selected' :'';?>
+                        <option value = "<?=$currencyCode['currencyCode']?>" <?=$select?>><?=$currencyCode['currencyCode']?></option>
                     <?php endforeach;?>
                 </select>
             </div>
@@ -55,9 +55,9 @@
             <tbody>
             <?php foreach($currencies as $currency):?>
                 <tr class="row">
-                    <td class="col-sm-3"><?=$currency['currencyCode']?></td>
+                    <td class="col-sm-3"><?=$currency['code']?></td>
                     <td class="col-sm-3"><?=$currency['name']?></td>
-                    <td class="col-sm-3"><?=$currency['value']?></td>
+                    <td class="col-sm-3"><?=$currency['middleRate']?></td>
                     <td class="col-sm-3"><?=$currency['date']?></td>
                 </tr>
             <?php endforeach;?>
