@@ -52,7 +52,7 @@ class RequestValidator
 
         if($fromCorrect && $toCorrect)
         {
-            if(!$this->isToLargerFrom($from, $to))
+            if(!$this->isToLargerEqualFrom($from, $to))
             {
                 array_push($validationResult, $this->langManager->getLangParam("periodErrorFromLargerTo"));
             }
@@ -85,8 +85,8 @@ class RequestValidator
         }
     }
 
-    private function isToLargerFrom(String $from, String $to): bool
+    private function isToLargerEqualFrom(String $from, String $to): bool
     {
-        return strtotime($to) > strtotime($from);
+        return strtotime($to) >= strtotime($from);
     }
 }

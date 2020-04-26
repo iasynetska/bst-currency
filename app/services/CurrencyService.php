@@ -2,7 +2,7 @@
 
 namespace services;
 
-use apiclients\CbrCurrencyApiClient;
+use apiclients\NbpCurrencyApiClient;
 use core\DbConnection;
 use Exception;
 use repositories\CurrencyDbRepository;
@@ -13,7 +13,7 @@ class CurrencyService implements CurrencyServiceInterface
     private $currencyApiClient;
 
 
-    public function __construct(CurrencyDbRepository $currencyRepository, CbrCurrencyApiClient $currencyApiClient)
+    public function __construct(CurrencyDbRepository $currencyRepository, NbpCurrencyApiClient $currencyApiClient)
     {
         $this->currencyRepository = $currencyRepository;
         $this->currencyApiClient = $currencyApiClient;
@@ -25,11 +25,20 @@ class CurrencyService implements CurrencyServiceInterface
         return $this->currencyRepository->getCurrencyByDateAndCurrencyCode($from, $to, $currencyCode);
     }
 
-    public function getMinAndMaxDate()
+    public function getCurrenciesByDateRange(String $from, String $to): array
+    {
+        return $this->currencyRepository->getCurrenciesByDateRange($from, $to);
+    }
+
+    public function getCurrenciesByDate(String $date)
+    {
+        return $this->currencyRepository->getCurrenciesByDate($date);
+    }
+
+    public function getMinAndMaxDate(): array
     {
         return $this->currencyRepository->getMinAndMaxDate();
     }
-
 
     public function populateDbWithCurrencies()
     {

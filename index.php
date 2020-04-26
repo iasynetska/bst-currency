@@ -1,6 +1,6 @@
 <?php
 
-use apiclients\CbrCurrencyApiClient;
+use apiclients\NbpCurrencyApiClient;
 use core\DbConnection;
 use core\Request;
 use core\LangManager;
@@ -26,7 +26,7 @@ if(empty($route))
 }
 
 $langManager = new LangManager($request);
-$currencyService = new CurrencyService(new CurrencyDbRepository(DbConnection::getPDO()), new CbrCurrencyApiClient());
+$currencyService = new CurrencyService(new CurrencyDbRepository(DbConnection::getPDO()), new NbpCurrencyApiClient());
 
 $controller = new $route['controller']($request, $langManager, $currencyService);
 $controllerMethod = $route['controllerMethod'];

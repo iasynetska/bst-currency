@@ -21,13 +21,17 @@
     <div class="container d-flex flex-column">
         <button type="button" id="load-btn" class="btn btn-secondary btn-lg btn-block" onclick="loadDatabase()"><?=$loadButton?></button>
 
-        <div class="info"><?=$actualInformation?></div>
+        <div class="info"><?=$actualInformation?>
+            <div id="spinner" class="spinner-border  spinner-border-sm d-none" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
 
         <form class="date-block d-flex flex-wrap justify-content-center" action="" method="post" onsubmit="return validateCurrencyRequestFields()">
 
             <div class="date-block__item">
                 <select name="currency" class="item-dropdown" oninput="cleanErrorBorder(this)">
-                    <option value = ""><?=$selectOptionCurrency?></option>
+                    <option value = "ALL"><?=$allCurrencies?></option>
                     <?php foreach($currencyCodes as $currencyCode):
                         $select = ($currencySelectedCode === $currencyCode['currencyCode']) ? 'selected' :'';?>
                         <option value = "<?=$currencyCode['currencyCode']?>" <?=$select?>><?=$currencyCode['currencyCode']?></option>
@@ -55,8 +59,8 @@
             <tbody>
             <?php foreach($currencies as $currency):?>
                 <tr class="row">
-                    <td class="col-sm-3"><?=$currency['code']?></td>
                     <td class="col-sm-3"><?=$currency['name']?></td>
+                    <td class="col-sm-3"><?=$currency['code']?></td>
                     <td class="col-sm-3"><?=$currency['middleRate']?></td>
                     <td class="col-sm-3"><?=$currency['date']?></td>
                 </tr>

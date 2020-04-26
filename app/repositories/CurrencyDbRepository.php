@@ -55,6 +55,45 @@ class CurrencyDbRepository implements CurrencyRepositoryInterface
         return $arr_currencies;
     }
 
+    public function getCurrenciesByDateRange(String $from, String $to): array
+    {
+        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':from', $from);
+        $stmt->bindParam(':to', $to);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        $arr_currencies = [];
+        foreach ($result as $currency)
+        {
+            array_push($arr_currencies, CurrencyConverter::arrayToEntity($currency));
+        }
+
+        return $arr_currencies;
+    }
+
+    public function getCurrenciesByDate(String $date): array
+    {
+        $sql = "SELECT * FROM currency WHERE date = :date";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':date', $date);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        $arr_currencies = [];
+        foreach ($result as $currency)
+        {
+            array_push($arr_currencies, CurrencyConverter::arrayToEntity($currency));
+        }
+
+        return $arr_currencies;
+    }
+
     public function deleteAllCurrencies(): void
     {
         $sql = "DELETE FROM currency";

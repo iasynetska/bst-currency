@@ -5,8 +5,11 @@ namespace apiclients;
 use entities\CurrencyConverter;
 use Exception;
 
-class CbrCurrencyApiClient implements CurrencyApiClientInterface
+class NbpCurrencyApiClient implements CurrencyApiClientInterface
 {
+    const BASE_URL = "https://api.nbp.pl/api/exchangerates/tables/a/last/";
+    const NUM_DAYS = 60;
+
     private $errors = [
         301 => 'Moved permanently',
         400 => 'Bad request',
@@ -24,10 +27,12 @@ class CbrCurrencyApiClient implements CurrencyApiClientInterface
      */
     public function getCurrenciesByDate(): array
     {
+        $url = self::BASE_URL . self::NUM_DAYS;
+
         $curl = curl_init();
 
         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($curl, CURLOPT_URL, 'https://api.nbp.pl/api/exchangerates/tables/a/last/60');
+        curl_setopt($curl, CURLOPT_URL, $url);
         curl_setopt($curl, CURLOPT_HEADER, false);
         curl_setopt($curl, CURLOPT_HTTPHEADER, array('Accept: application/json'));
         curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'GET');

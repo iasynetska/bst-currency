@@ -2,13 +2,13 @@
 return array (
     "title" => "BST currency",
     "loadButton" => "Click for loading Database for the last 60 days",
-    "selectOptionCurrency" => "Select currency",
+    "allCurrencies" => "All currencies",
     "showReportButton" => "Show report",
     "currencyAvailability" => "Polish zloty exchange rates are available from %s to %s",
     "emptyDatabase" => "Database is empty",
     "columnNames" => [
-        "code",
         "name",
+        "code",
         "value",
         "date"
     ],
