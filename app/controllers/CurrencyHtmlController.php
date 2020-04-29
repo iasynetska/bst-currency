@@ -37,16 +37,16 @@ class CurrencyHtmlController extends AbstractController
             exit();
         }
 
-        $currencies = $this->currencyService->getCurrencyByDateAndCurrencyId($selectedFromDate, $selectedToDate, $currencySelectedCode);
+        $minDate = $this->currencyService->getMinAndMaxDate()["minDate"];
+        $maxDate = $this->currencyService->getMinAndMaxDate()["maxDate"];
+        $actualInformation = isset($minDate) && isset($maxDate) ? sprintf($this->langManager->getLangParam('currencyAvailability'), $minDate, $maxDate) : $this->langManager->getLangParam('emptyDatabase');
+
+        $currencies = $currencySelectedCode === "ALL" ? $this->currencyService->getCurrenciesByDateRange($selectedFromDate, $selectedToDate) : $this->currencyService->getCurrencyByDateAndCurrencyCode($selectedFromDate, $selectedToDate, $currencySelectedCode);
 
         $arr_currencies = [];
         foreach ($currencies as $currency) {
             array_push($arr_currencies, CurrencyConverter::entityToArray($currency));
         }
-
-        $minDate = $this->currencyService->getMinAndMaxDate()["minDate"];
-        $maxDate = $this->currencyService->getMinAndMaxDate()["maxDate"];
-        $actualInformation = isset($minDate) && isset($maxDate) ? sprintf($this->langManager->getLangParam('currencyAvailability'), $minDate, $maxDate) : $this->langManager->getLangParam('emptyDatabase');
 
         echo $this->build(
             dirname(__DIR__, 1) . '/views/index.html.php',
@@ -54,7 +54,7 @@ class CurrencyHtmlController extends AbstractController
                 'title' => $this->langManager->getLangParam('title'),
                 'loadButton' => $this->langManager->getLangParam('loadButton'),
                 'actualInformation' => $actualInformation,
-                'selectOptionCurrency' => $this->langManager->getLangParam('selectOptionCurrency'),
+                'allCurrencies' => $this->langManager->getLangParam('allCurrencies'),
                 'showReportButton' => $this->langManager->getLangParam('showReportButton'),
                 'columnNames' => $this->langManager->getLangParam('columnNames'),
                 'currencies' => $arr_currencies,
@@ -69,9 +69,20 @@ class CurrencyHtmlController extends AbstractController
 
     public function handleCurrencyGetRequest()
     {
-        $minDate = $this->currencyService->getMinAndMaxDate()["minDate"];
-        $maxDate = $this->currencyService->getMinAndMaxDate()["maxDate"];
+        $minMaxDates = $this->currencyService->getMinAndMaxDate();
+        $minDate = $minMaxDates["minDate"];
+        $maxDate = $minMaxDates["maxDate"];
         $actualInformation = isset($minDate) && isset($maxDate) ? sprintf($this->langManager->getLangParam('currencyAvailability'), $minDate, $maxDate) : $this->langManager->getLangParam('emptyDatabase');
+
+        $arr_currencies = [];
+
+        if(isset($maxDate))
+        {
+            $currencies =  $this->currencyService->getCurrenciesByDate($maxDate);
+            foreach ($currencies as $currency) {
+                $arr_currencies[$currency->getCode()] = CurrencyConverter::entityToArray($currency);
+            }
+        }
 
         echo $this->build(
             dirname(__DIR__, 1) . '/views/index.html.php',
@@ -79,13 +90,13 @@ class CurrencyHtmlController extends AbstractController
                 'title' => $this->langManager->getLangParam('title'),
                 'loadButton' => $this->langManager->getLangParam('loadButton'),
                 'actualInformation' => $actualInformation,
-                'selectOptionCurrency' => $this->langManager->getLangParam('selectOptionCurrency'),
+                'allCurrencies' => $this->langManager->getLangParam('allCurrencies'),
                 'showReportButton' => $this->langManager->getLangParam('showReportButton'),
                 'columnNames' => $this->langManager->getLangParam('columnNames'),
                 'currencySelectedCode' => null,
-                'selectedFromDate' => null,
-                'selectedToDate' => null,
-                'currencies' => [],
+                'selectedFromDate' => isset($maxDate) ? $maxDate : null,
+                'selectedToDate' => isset($maxDate) ? $maxDate : null,
+                'currencies' => $arr_currencies,
                 'currencyCodes' => CurrencyUtils::getAllCurrencyIds()
             ]
         );

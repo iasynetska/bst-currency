@@ -1,20 +1,21 @@
 <?php
 return array (
     "title" => "BST currency",
-    "loadButton" => "Click for loading Database for the last 30 days",
-    "selectOptionCurrency" => "Select currency",
+    "loadButton" => "Click for loading Database for the last 60 days",
+    "allCurrencies" => "All currencies",
     "showReportButton" => "Show report",
-    "currencyAvailability" => "Currency rates are available from %s to %s",
+    "currencyAvailability" => "Polish zloty exchange rates are available from %s to %s",
     "emptyDatabase" => "Database is empty",
     "columnNames" => [
-        "code",
         "name",
+        "code",
         "value",
         "date"
     ],
     "loadSuccess" => "Database was successfully loaded",
     "loadError" => "Error: %s",
     "currencySelectedErrorNotSelected" => "Field 'Currency' is empty",
+    "currencyCodeErrorInvalid" => "Currency code invalid format",
     "fromErrorNotSelected" => "Field 'From' is empty",
     "toErrorNotSelected" => "Field 'To' is empty",
     "fromErrorInvalidFormat" => "Field 'From' invalid format",

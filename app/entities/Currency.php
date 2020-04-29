@@ -5,37 +5,18 @@ namespace entities;
 
 class Currency
 {
-    private $currencyID;
-    private $numCode;
-    private $currencyCode;
     private $name;
-    private $value;
+    private $code;
+    private $middleRate;
     private $date;
 
 
-    public function __construct(String $currencyID, int $numCode, String $currencyCode, String $name, float $value, $date)
+    public function __construct(String $name, String $code, float $middleRate, $date)
     {
-        $this->currencyID = $currencyID;
-        $this->numCode = $numCode;
-        $this->currencyCode = $currencyCode;
         $this->name = $name;
-        $this->value = $value;
+        $this->code = $code;
+        $this->middleRate = $middleRate;
         $this->date = $date;
-    }
-
-    public function getCurrencyID(): String
-    {
-        return $this->currencyID;
-    }
-
-    public function getNumCode(): int
-    {
-        return $this->numCode;
-    }
-
-    public function getCurrencyCode(): String
-    {
-        return $this->currencyCode;
     }
 
     public function getName(): String
@@ -43,9 +24,14 @@ class Currency
         return $this->name;
     }
 
-    public function getValue(): float
+    public function getCode(): String
     {
-        return $this->value;
+        return $this->code;
+    }
+
+    public function getMiddleRate(): String
+    {
+        return $this->middleRate;
     }
 
     public function getDate()

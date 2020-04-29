@@ -2,55 +2,53 @@
 
 namespace services;
 
-use apiclients\CbrCurrencyApiClient;
+use apiclients\NbpCurrencyApiClient;
 use core\DbConnection;
 use Exception;
 use repositories\CurrencyDbRepository;
 
 class CurrencyService implements CurrencyServiceInterface
 {
-    private $apiDateFormat = 'd/m/Y';
-    private $apiDaysToFillDb = 30;
-
     private $currencyRepository;
     private $currencyApiClient;
 
 
-    public function __construct(CurrencyDbRepository $currencyRepository, CbrCurrencyApiClient $currencyApiClient)
+    public function __construct(CurrencyDbRepository $currencyRepository, NbpCurrencyApiClient $currencyApiClient)
     {
         $this->currencyRepository = $currencyRepository;
         $this->currencyApiClient = $currencyApiClient;
     }
 
 
-    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyId): array
+    public function getCurrencyByDateAndCurrencyCode(String $from, String $to, String $currencyCode): array
     {
-        return $this->currencyRepository->getCurrencyByDateAndCurrencyId($from, $to, $currencyId);
+        return $this->currencyRepository->getCurrencyByDateAndCurrencyCode($from, $to, $currencyCode);
     }
 
-    public function getMinAndMaxDate()
+    public function getCurrenciesByDateRange(String $from, String $to): array
+    {
+        return $this->currencyRepository->getCurrenciesByDateRange($from, $to);
+    }
+
+    public function getCurrenciesByDate(String $date)
+    {
+        return $this->currencyRepository->getCurrenciesByDate($date);
+    }
+
+    public function getMinAndMaxDate(): array
     {
         return $this->currencyRepository->getMinAndMaxDate();
     }
 
-
     public function populateDbWithCurrencies()
     {
-        $date = date($this->apiDateFormat);
-
         try{
             DbConnection::getPDO()->beginTransaction();
             $this->currencyRepository->deleteAllCurrencies();
-
-            for ($i = 0; $i <=$this->apiDaysToFillDb; $i++)
+            $currencies = $this->currencyApiClient->getCurrenciesByDate();
+            foreach ($currencies as $currency)
             {
-                $currencies = $this->currencyApiClient->getCurrenciesByDate($date);
-                foreach ($currencies as $currency)
-                {
-                    $this->currencyRepository->addCurrency($currency);
-                }
-
-                $date = date($this->apiDateFormat, strtotime($currencies[0]->getDate() . ' -1 day'));
+                $this->currencyRepository->addCurrency($currency);
             }
             DbConnection::getPDO()->commit();
         }

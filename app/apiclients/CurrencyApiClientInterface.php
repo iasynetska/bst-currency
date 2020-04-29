@@ -6,5 +6,5 @@ namespace apiclients;
 
 interface CurrencyApiClientInterface
 {
-    public function getCurrenciesByDate(String $date): array;
+    public function getCurrenciesByDate(): array;
 }

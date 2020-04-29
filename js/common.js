@@ -44,7 +44,7 @@ function loadDatabase() {
             $(".info").text(response.actualInformation);
         },
         message => {
-            btn.text(message);
+            isJson(message) ? btn.text(message) : btn.text("Fatal Error");
             btn.removeClass("btn-info").addClass("btn-danger");
             btn.removeAttr("disabled");
         });
@@ -55,11 +55,27 @@ function sentRequestToLoadDatabase(success, error) {
     $.ajax({
         url: "/api/loaddata",
         method: "post",
-        dataType: "json"
+        dataType: "json",
+        beforeSend: function () {
+            $("#spinner").removeClass("d-none");
+        }
     })
         .done(response => success(response))
         .fail(response => error(response.responseJSON === undefined ? response.responseText : response.responseJSON.message)
-        );
+        )
+        .always(function(){
+            $("#spinner").addClass("d-none");
+        });
+}
+
+
+function isJson(str) {
+    try {
+        JSON.parse(str);
+    } catch (e) {
+        return false;
+    }
+    return true;
 }
 
 
@@ -78,19 +94,24 @@ function validateCurrencyRequestFields() {
     const fromValid = validateFieldFrom(from);
     const toValid = validateFieldTo(to);
 
-    let toLargerFrom = true;
+    let toLargerEqualFrom = true;
     if (fromValid && toValid) {
-        toLargerFrom = isToLargerFrom(from, to);
+        toLargerEqualFrom = isToLargerEqualFrom(from, to);
     }
 
-    return currencyValid && fromValid && toValid && toLargerFrom;
+    return currencyValid && fromValid && toValid && toLargerEqualFrom;
 }
 
 
 function validateCurrencySelected(currencySelected) {
-    if (isStringEmpty(currencySelected.find('option').filter(":selected").val())) {
+    const currencyCode = currencySelected.find('option').filter(":selected").val();
+    if (isStringEmpty(currencyCode)) {
         currencySelected.addClass("error-field");
         addErrorMessage("currencySelectedErrorNotSelected");
+        return false;
+    } else if (!isCurrencyValid(currencyCode)) {
+        currencySelected.addClass("error-field");
+        addErrorMessage("currencyCodeErrorInvalid");
         return false;
     }
     return true;
@@ -130,7 +151,7 @@ function validateFieldTo(to) {
  * @param to
  * @returns {boolean}
  */
-function isToLargerFrom(from, to) {
+function isToLargerEqualFrom(from, to) {
     if (to.datepicker("getDate") < from.datepicker("getDate")) {
         from.addClass("error-field");
         addErrorMessage("periodErrorFromLargerTo");
@@ -142,6 +163,12 @@ function isToLargerFrom(from, to) {
 
 function isStringEmpty(context) {
     return context === null || context === "";
+}
+
+
+function isCurrencyValid(currencyCode) {
+    const codeFormat = /^[A-Z]{3}$/;
+    return codeFormat.test(currencyCode);
 }
 
 

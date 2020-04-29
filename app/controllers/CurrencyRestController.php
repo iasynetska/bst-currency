@@ -43,12 +43,12 @@ class CurrencyRestController extends AbstractController
 
     public function handleCurrencyGetRequest()
     {
-        $currencySelectedCode = $this->request->getGetParam("valueID");
+        $currencyCode = $this->request->getGetParam("currency");
         $from = $this->request->getGetParam("from");
         $to = $this->request->getGetParam("to");
 
         $currencyValidator = new RequestValidator($this->langManager);
-        $validationErrorMessages = $currencyValidator->validateDataForCurrencyReport($currencySelectedCode, $from, $to);
+        $validationErrorMessages = $currencyValidator->validateDataForCurrencyReport($currencyCode, $from, $to);
 
         if(!empty($validationErrorMessages))
         {
@@ -57,7 +57,7 @@ class CurrencyRestController extends AbstractController
             exit();
         }
 
-        $currencies = $this->currencyService->getCurrencyByDateAndValuteId($from, $to, $currencySelectedCode);
+        $currencies = $this->currencyService->getCurrencyByDateAndCurrencyCode($from, $to, $currencyCode);
         $arr_currencies = [];
         foreach ($currencies as $currency) {
             array_push($arr_currencies, CurrencyConverter::entityToArray($currency));

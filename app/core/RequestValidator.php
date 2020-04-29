@@ -23,6 +23,10 @@ class RequestValidator
         {
             array_push($validationResult, $this->langManager->getLangParam("currencySelectedErrorNotSelected"));
         }
+        elseif(!$this->isCurrencyCodeCorrect($currencySelected))
+        {
+            array_push($validationResult, $this->langManager->getLangParam("currencyCodeErrorInvalid"));
+        }
 
         if($this->isEmpty($from))
         {
@@ -48,7 +52,7 @@ class RequestValidator
 
         if($fromCorrect && $toCorrect)
         {
-            if(!$this->isToLargerFrom($from, $to))
+            if(!$this->isToLargerEqualFrom($from, $to))
             {
                 array_push($validationResult, $this->langManager->getLangParam("periodErrorFromLargerTo"));
             }
@@ -63,6 +67,14 @@ class RequestValidator
         return $value === null || $value === "";
     }
 
+    private function isCurrencyCodeCorrect(String $currencySelected): bool
+    {
+        if (preg_match("/^[A-Z]{3}$/", $currencySelected)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 
     private function isDateCorrect(String $date): bool
     {
@@ -73,8 +85,8 @@ class RequestValidator
         }
     }
 
-    private function isToLargerFrom(String $from, String $to): bool
+    private function isToLargerEqualFrom(String $from, String $to): bool
     {
-        return strtotime($to) > strtotime($from);
+        return strtotime($to) >= strtotime($from);
     }
 }

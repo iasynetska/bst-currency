@@ -6,8 +6,6 @@ use core\Request;
 
 abstract class AbstractController
 {
-    const DATE_FORMAT = 'Y-m-d';
-
     protected $request;
     protected $langManager;
     

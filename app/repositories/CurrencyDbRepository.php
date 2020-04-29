@@ -16,36 +16,72 @@ class CurrencyDbRepository implements CurrencyRepositoryInterface
 
     public function addCurrency(Currency $currency): void
     {
-        $sql = "INSERT INTO currency (currencyID, numCode, currencyCode, name, value, date) VALUES (:currencyID, :numCode, :currencyCode, :name, :value, :date)";
+        $sql = "INSERT INTO currency (name, code, middleRate, date) VALUES (:name, :code, :middleRate, :date)";
 
-        $currencyID = $currency->getCurrencyID();
-        $numCode = $currency->getNumCode();
-        $currencyCode = $currency->getCurrencyCode();
         $name = $currency->getName();
-        $value = $currency->getValue();
+        $code = $currency->getCode();
+        $middleRate = $currency->getMiddleRate();
         $date = $currency->getDate();
 
         $stmt = $this->pdo->prepare($sql);
 
-        $stmt->bindParam(':currencyID', $currencyID, PDO::PARAM_STR);
-        $stmt->bindParam(':numCode', $numCode, PDO::PARAM_INT);
-        $stmt->bindParam(':currencyCode', $currencyCode, PDO::PARAM_STR);
         $stmt->bindParam(':name', $name, PDO::PARAM_STR);
-        $stmt->bindParam(':value', $value);
+        $stmt->bindParam(':code', $code, PDO::PARAM_STR);
+        $stmt->bindParam(':middleRate', $middleRate);
         $stmt->bindParam(':date', $date);
 
 
         $stmt->execute();
     }
 
-    public function getCurrencyByDateAndCurrencyId(String $from, String $to, String $currencyID): array
+    public function getCurrencyByDateAndCurrencyCode(String $from, String $to, String $currencyCode): array
     {
-        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to AND currencyID = :currencyID";
-
-        $params = array('from'=>$from, 'to'=>$to, 'currencyID'=>$currencyID);
+        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to AND code = :currencyCode";
 
         $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
+        $stmt->bindParam(':from', $from);
+        $stmt->bindParam(':to', $to);
+        $stmt->bindParam(':currencyCode', $currencyCode, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        $arr_currencies = [];
+        foreach ($result as $currency)
+        {
+            array_push($arr_currencies, CurrencyConverter::arrayToEntity($currency));
+        }
+
+        return $arr_currencies;
+    }
+
+    public function getCurrenciesByDateRange(String $from, String $to): array
+    {
+        $sql = "SELECT * FROM currency WHERE date >= :from AND date <= :to";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':from', $from);
+        $stmt->bindParam(':to', $to);
+        $stmt->execute();
+
+        $result = $stmt->fetchAll();
+
+        $arr_currencies = [];
+        foreach ($result as $currency)
+        {
+            array_push($arr_currencies, CurrencyConverter::arrayToEntity($currency));
+        }
+
+        return $arr_currencies;
+    }
+
+    public function getCurrenciesByDate(String $date): array
+    {
+        $sql = "SELECT * FROM currency WHERE date = :date";
+
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindParam(':date', $date);
+        $stmt->execute();
 
         $result = $stmt->fetchAll();
 

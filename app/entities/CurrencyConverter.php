@@ -11,11 +11,9 @@ class CurrencyConverter
     public static function entityToArray(Currency $entity)
     {
         return [
-            'currencyID' => $entity->getCurrencyID(),
-            'numCode' => $entity->getNumCode(),
-            'currencyCode' => $entity->getCurrencyCode(),
             'name' => $entity->getName(),
-            'value' => $entity->getValue(),
+            'code' => $entity->getCode(),
+            'middleRate' => $entity->getMiddleRate(),
             'date' => $entity->getDate()
         ];
     }
@@ -23,32 +21,29 @@ class CurrencyConverter
     public static function arrayToEntity($array): Currency
     {
         return new Currency(
-            $array['currencyID'],
-            $array['numCode'],
-            $array['currencyCode'],
             $array['name'],
-            $array['value'],
+            $array['code'],
+            $array['middleRate'],
             $array['date']
         );
     }
 
-    public static function xmlToEntities($xml): array
+    public static function jsonToEntities($json): array
     {
-        $currencies = simplexml_load_string($xml);
-
-        $date = date(AbstractController::DATE_FORMAT, strtotime((String)$currencies->attributes()->Date));
+        $currencies = json_decode($json);
 
         $currenciesArr = array();
-        foreach ($currencies->children() as $currency)
+        foreach ($currencies as $currency)
         {
-            array_push($currenciesArr, new Currency(
-                (String)$currency->attributes()->ID,
-                (int)$currency->NumCode,
-                (String)$currency->CharCode,
-                (String)$currency->Name,
-                (float)str_replace(',','.',(String)$currency->Value),
-                $date
-            ));
+            $date = $currency->effectiveDate;
+            foreach ($currency->rates as $rate)
+            {
+                array_push($currenciesArr, new Currency(
+                (String)$rate->currency,
+                (String)$rate->code,
+                (float)$rate->mid,
+                $date));
+            }
         }
 
         return $currenciesArr;
